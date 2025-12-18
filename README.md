@@ -63,7 +63,7 @@ aws ec2 run-instances --image-id ami-08a6efd148b1f7504 \
 ## 2. Configure the Python Lambda 
 
 ```
- boto3  
+boto3  
 region = 'us-east-1'
 instances = ['i-02490cb03dc73f4e1']
 ec2 = boto3.client('ec2', region_name=region)
