@@ -62,13 +62,7 @@ aws ec2 run-instances --image-id ami-08a6efd148b1f7504 \
 --security-group-ids "sg-0c94988a0d0f178db" \
 --count 1
 
-## 2. Configure the Python Lambda
-
-import boto3
-
-# AWS region and list of instances to stop
-REGION = "us‑east‑1"
-INSTANCES = ["i-02490cb03dc73f4e1"]  
+## 2. Configure the Python Lambda 
 
 import boto3  
 region = 'us-east-1'
