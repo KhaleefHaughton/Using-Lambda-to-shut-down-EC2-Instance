@@ -52,3 +52,80 @@ aws-ec2-auto-shutdown/
 ├── .gitignore               # Git ignore rules for Python, AWS, and CI/CD artifacts
 └── README.md                # Project documentation and setup guide
 
+
+aws configure
+#Type in your own Id's from above. (Plug in your own)
+
+aws ec2 run-instances --image-id ami-08a6efd148b1f7504 \
+--instance-type t2.micro \
+--key-name shutdown \
+--security-group-ids "sg-0c94988a0d0f178db" \
+--count 1
+
+## 2. Configure the Python Lambda
+
+import boto3
+
+# AWS region and list of instances to stop
+REGION = "us‑east‑1"
+INSTANCES = ["i-02490cb03dc73f4e1"]  
+
+import boto3  
+region = 'us-east-1'
+instances = ['i-02490cb03dc73f4e1']
+ec2 = boto3.client('ec2', region_name=region)
+
+def lambda_handler(event, context):
+    ec2.stop_instances(InstanceIds=instances)
+    print('stopped your instances: ' + str(instances))
+
+## 3. Create an EventBridge (CloudWatch) Rule
+
+Inside AWS Console (or via CLI):
+
+Go to EventBridge → Rules → Create rule
+
+Add a schedule like: cron(0 19 * * ? *) (7 PM daily)
+
+Set Target → your Lambda function
+
+This ensures your Lambda runs nightly and stops instances.
+
+## 4. GitHub Actions CI/CD
+
+name: Deploy Lambda
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us‑east‑1
+
+    - name: Zip Lambda Function
+      run: |
+        cd lambda
+        zip shutdown.zip shutdown.py
+
+    - name: Deploy Lambda
+      run: |
+        aws lambda update‑function‑code \
+          --function‑name auto‑shutdown‑ec2 \
+          --zip‑file fileb://lambda/shutdown.zip
+
+
+    
+
