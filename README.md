@@ -40,3 +40,15 @@ Before beginning:
 
 ## 🛠️ Project Structure
 
+aws-ec2-auto-shutdown/
+├── lambda/
+│   ├── shutdown.py          # Python Lambda function to stop EC2 instances
+│   └── requirements.txt     # Python dependencies (optional, boto3 included in Lambda)
+│
+├── .github/
+│   └── workflows/
+│       └── deploy-lambda.yml # GitHub Actions CI/CD pipeline for Lambda deployment
+│
+├── .gitignore               # Git ignore rules for Python, AWS, and CI/CD artifacts
+└── README.md                # Project documentation and setup guide
+
