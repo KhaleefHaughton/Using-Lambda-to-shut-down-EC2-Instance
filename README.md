@@ -7,8 +7,6 @@ This project implements a **serverless AWS Lambda automation** to **automaticall
 
 The automation is fully **CI/CD enabled** with **GitHub Actions**, ensuring that infrastructure changes are deployed reliably and consistently.
 
-This project was built based on the workflow described in the Medium article *Shut don’t go up! It Goes Down.* by Khaleef Haughton. :contentReference[oaicite:1]{index=1}
-
 ---
 
 ## 🧠 What It Does
@@ -54,7 +52,6 @@ aws-ec2-auto-shutdown/
 
 
 aws configure
-#Type in your own Id's from above. (Plug in your own)
 
 aws ec2 run-instances --image-id ami-08a6efd148b1f7504 \
 --instance-type t2.micro \
@@ -75,9 +72,9 @@ def lambda_handler(event, context):
 
 ## 3. Create an EventBridge (CloudWatch) Rule
 
-Inside AWS Console (or via CLI):
+Inside AWS Console or CLI:
 
-Go to EventBridge → Rules → Create rule
+Go to EventBridge → Rules → Create rule (trigger-lambda)
 
 Add a schedule like: cron(0 19 * * ? *) (7 PM daily)
 
@@ -86,7 +83,7 @@ Set Target → your Lambda function
 This ensures your Lambda runs nightly and stops instances.
 
 ## 4. GitHub Actions CI/CD
-
+```
 name: Deploy Lambda
 
 on:
