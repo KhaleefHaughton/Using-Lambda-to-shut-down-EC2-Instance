@@ -51,7 +51,7 @@ aws-ec2-auto-shutdown/
 └── README.md                # Project documentation and setup guide
 
 
-## 1. Aws configure
+## 1. AWS Configure
 ```
 aws ec2 run-instances --image-id ami-08a6efd148b1f7504 \
 --instance-type t2.micro \
