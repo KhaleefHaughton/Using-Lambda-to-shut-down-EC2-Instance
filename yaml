@@ -1,0 +1,24 @@
+
+---
+
+## 🧰 Step‑by‑Step Setup
+
+### 1. AWS IAM Role for Lambda
+
+Create an IAM role (e.g., `lambda‑ec2‑shutdown‑role`) with the following policy:
+
+```json
+{
+  "Version": "2012‑10‑17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:StopInstances",
+        "ec2:DescribeInstances"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+
